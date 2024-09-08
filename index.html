@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+        rel="stylesheet">
+    <title>Trailers de Filmes</title>
+    <style>
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Cor de fundo padrão preta */
+            color: #fff; /* Cor do texto branca */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: #000; /* Cor de fundo preta */
+            color: #fff; /* Cor do texto branca */
+            padding: 1rem;
+            text-align: center;
+            font-size: 2.5rem; /* Tamanho grande para o título */
+            border-bottom: 5px solid #fff; /* Barra branca na parte inferior */
+        }
+
+        .textos {
+            text-align: center; /* Centraliza o texto dentro da div */
+            margin: 1rem 0; /* Espaçamento em cima e embaixo */
+        }
+
+        .textos h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .textos p {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .chamada {
+            display: flex;
+            align-items: flex-start; /* Alinha o conteúdo ao topo */
+            padding: 1rem;
+            margin-top: 2rem; /* Espaço extra acima da seção do vídeo principal */
+            position: relative;
+        }
+
+        .chamada iframe {
+            width: 480px; /* Largura do vídeo */
+            height: 270px; /* Altura do vídeo */
+            border: none; /* Remove a borda do iframe */
+            margin-right: 1rem; /* Espaço entre o vídeo e a caixa de texto */
+        }
+
+        .chamada-texto {
+            background-color: #333; /* Cor de fundo cinza escuro */
+            padding: 1rem; /* Espaçamento interno da caixa de texto */
+            border-radius: 8px; /* Bordas arredondadas */
+            color: #fff; /* Cor do texto */
+            width: 300px; /* Largura fixa para a caixa de texto */
+            height: 270px; /* Altura igual ao vídeo para manter o alinhamento */
+            display: flex;
+            flex-direction: column; /* Alinha o texto verticalmente */
+            position: relative; /* Permite o posicionamento absoluto do título */
+            margin-top: 0; /* Sem margem superior para alinhar com o vídeo */
+            box-sizing: border-box; /* Inclui o padding na largura total */
+        }
+
+        .chamada-texto::before {
+            content: "Informações e Sinopse";
+            background-color: #fff; /* Barra branca */
+            color: #000; /* Cor do texto da barra */
+            display: block;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            border-radius: 8px 8px 0 0; /* Bordas arredondadas no topo */
+            margin-bottom: 0.5rem; /* Espaço entre a barra e o conteúdo da caixa */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1; /* Garante que a barra branca fique sobre o conteúdo da caixa */
+        }
+
+        .chamada-texto p {
+            margin-top: 2rem; /* Espaçamento superior para o conteúdo principal da caixa */
+            z-index: 0; /* Garante que o texto da caixa fique abaixo da barra branca */
+        }
+
+        .categoria {
+            background-color: #555; /* Cor de fundo cinza */
+            padding: 1rem; /* Espaçamento interno da caixa cinza */
+            border-radius: 8px; /* Bordas arredondadas */
+            color: #fff; /* Cor do texto */
+            margin: 2rem 0; /* Margem superior e inferior para espaçamento com outras seções */
+        }
+
+        .categoria-titulo {
+            text-align: center; /* Centraliza o texto dentro da caixa cinza */
+            margin-bottom: 1rem; /* Espaço entre o título e a fileira de vídeos */
+        }
+
+        .categoria-titulo h2 {
+            font-size: 2rem; /* Tamanho maior para o título da seção */
+            margin: 0;
+        }
+
+        .categoria-videos {
+            display: flex; /* Alinha os itens na horizontal */
+            gap: 1rem; /* Espaço entre os itens */
+            overflow-x: auto; /* Adiciona rolagem horizontal se necessário */
+            padding: 1rem 0; /* Espaçamento interno na vertical */
+            white-space: nowrap; /* Impede quebra de linha */
+            width: 100%; /* Largura total para garantir a rolagem */
+            box-sizing: border-box; /* Inclui o padding na largura total */
+        }
+
+        .categoria-videos a {
+            display: block;
+            flex: 0 0 auto; /* Impede que os itens se estiquem */
+        }
+
+        .categoria-videos img {
+            width: 320px; /* Aumenta a largura das imagens */
+            height: 180px; /* Aumenta a altura das imagens */
+            object-fit: cover; /* Mantém a proporção das imagens dentro da área definida */
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem; /* Aumenta o tamanho do botão */
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001; /* Garante que o botão fique acima dos outros elementos */
+        }
+
+        .menu-toggle img {
+            width: 60px; /* Aumenta a largura da imagem do botão */
+            height: 60px; /* Aumenta a altura da imagem do botão */
+            object-fit: cover; /* Garante que a imagem cubra o botão sem distorcer */
+            clip-path: circle(50% at 50% 50%); /* Corta a imagem para um círculo com 50% do tamanho */
+        }
+
+        .menu-box {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Esconde a barra lateral fora da tela */
+            width: 25%;
+            height: 100%;
+            background-color: #333;
+            color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            transition: right 0.3s;
+            padding: 1rem;
+            overflow-y: auto;
+            z-index: 1000; /* Garante que a caixa do menu fique acima dos outros elementos */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Alinha o conteúdo ao fundo do menu */
+            box-sizing: border-box; /* Inclui o padding na largura total */
+        }
+
+        .menu-header {
+            color: #fefcbf; /* Cor do texto em amarelo claro */
+            font-size: 1.5rem; /* Tamanho do texto */
+            margin: 0; /* Remove margem abaixo do texto */
+            padding: 0.5rem 1rem; /* Adiciona espaço interno ao redor do texto */
+            position: absolute;
+            left: 0;
+            bottom: 1rem; /* Posiciona o texto mais para baixo */
+            z-index: 2; /* Garante que o texto fique acima dos outros elementos do menu */
+            background-color: #333; /* Cor de fundo para melhorar a legibilidade */
+            border-top: 2px solid #fefcbf; /* Linha acima do texto para destacar */
+            font-family: 'Roboto', sans-serif; /* Fonte personalizada para o texto placeholder */
+            width: calc(100% - 2rem); /* Largura total com padding incluído */
+        }
+
+        .menu-texts {
+            margin-top: 4rem; /* Espaçamento para garantir que o texto não fique em cima do header */
+        }
+
+        .menu-texts p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0; /* Espaçamento entre os itens de texto */
+        }
+
+        .menu-box.open {
+            right: 0; /* Mostra a barra lateral quando está aberta */
+        }
+    </style>
+</head>
+
+<body>
+    <button class="menu-toggle" onclick="toggleMenu()">
+        <img src="https://image.shutterstock.com/image-vector/hamburger-menu-button-dark-mode-260nw-44429783.jpg" alt="Menu">
+    </button>
+
+    <div id="menu-box" class="menu-box">
+        <div class="menu-header" id="menu-header">Texto Personalizável</div>
+        <div class="menu-texts">
+            <p>Joaquim</p>
+            <p>Deniels</p>
+            <p>Ryan</p>
+            <p>Gabrieli</p>
+            <p>Arthur</p>
+            <p>Hallany</p>
+        </div>
+    </div>
+
+    <header>
+        <h1>Trailers de Filmes</h1>
+    </header>
+
+    <section class="textos">
+        <h1>Bem-vindo!</h1>
+        <p>Descubra os trailers mais emocionantes dos filmes e séries.</p>
+    </section>
+
+    <section class="chamada">
+        <iframe id="player" src="https://www.youtube.com/embed/dEbe0rS4Z2A" allowfullscreen></iframe>
+        <div class="chamada-texto" id="chamada-texto">
+            <p>Wolverine está se recuperando quando cruza seu caminho com Deadpool. Juntos, eles formam uma equipe e enfrentam um inimigo em comum.</p>
+        </div>
+    </section>
+
+    <section class="categoria">
+        <div class="categoria-titulo">
+            <h2>Outros Vídeos</h2>
+        </div>
+        <div class="categoria-videos">
+            <a href="https://www.youtube.com/watch?v=dEbe0rS4Z2A" data-video="dEbe0rS4Z2A" data-sinopse="Wolverine está se recuperando quando cruza seu caminho com Deadpool. Juntos, eles formam uma equipe e enfrentam um inimigo em comum.">
+                <img src="https://img.youtube.com/vi/dEbe0rS4Z2A/hqdefault.jpg" alt="Vídeo Principal" />
+            </a>
+            <a href="https://www.youtube.com/watch?v=seSIJf5mhPE" data-video="seSIJf5mhPE" data-sinopse="Gru dá as boas-vindas a um novo membro da família, Gru Jr., que pretende atormentar seu pai. No entanto, sua existência pacífica logo desmorona quando um mentor do crime escapa da prisão e jura vingança contra Gru.">
+                <img src="https://img.youtube.com/vi/seSIJf5mhPE/hqdefault.jpg" alt="Vídeo 2" />
+            </a>
+            <a href="https://www.youtube.com/watch?v=acxGxPlxfZY" data-video="acxGxPlxfZY" data-sinopse="Um herói relutante é forçado a enfrentar seu passado enquanto luta contra um vilão perigoso.">
+                <img src="https://img.youtube.com/vi/acxGxPlxfZY/hqdefault.jpg" alt="Vídeo 3" />
+            </a>
+            <a href="https://www.youtube.com/watch?v=cx48_97PfvM" data-video="cx48_97PfvM" data-sinopse="Uma invasão alienígena ameaça a Terra, e um grupo de cientistas deve encontrar uma maneira de salvar o planeta.">
+                <img src="https://img.youtube.com/vi/cx48_97PfvM/hqdefault.jpg" alt="Vídeo 4" />
+            </a>
+            <a href="https://www.youtube.com/watch?v=gG-nAsZB8k8" data-video="gG-nAsZB8k8" data-sinopse="Após um acidente de laboratório, um cientista ganha poderes extraordinários e precisa se adaptar à nova vida.">
+                <img src="https://img.youtube.com/vi/gG-nAsZB8k8/hqdefault.jpg" alt="Vídeo 5" />
+            </a>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const menuBox = document.getElementById('menu-box');
+            menuBox.classList.toggle('open');
+        }
+
+        document.querySelectorAll('.categoria-videos a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Evita o comportamento padrão do link
+                const videoId = this.getAttribute('data-video');
+                const sinopse = this.getAttribute('data-sinopse');
+                const player = document.getElementById('player');
+                const chamadaTexto = document.getElementById('chamada-texto');
+
+                player.src = `https://www.youtube.com/embed/${videoId}`;
+                chamadaTexto.querySelector('p').textContent = sinopse; // Atualiza a sinopse
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Personalizável</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            position: relative; /* Necessário para posicionamento absoluto dos elementos filhos */
+            background-color: #f0f0f0; /* Cor de fundo para contraste, ajuste conforme necessário */
+        }
+
+        .custom-text {
+            position: absolute; /* Permite posicionar o texto em qualquer lugar da tela */
+            font-family: 'Arial', sans-serif; /* Fonte padrão, você pode mudar para qualquer fonte desejada */
+            font-size: 1.5rem; /* Tamanho da fonte, ajuste conforme necessário */
+            color: #000; /* Cor do texto, ajuste conforme necessário */
+            background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente para melhor legibilidade */
+            padding: 1rem; /* Espaço interno ao redor do texto */
+            border-radius: 5px; /* Bordas arredondadas para o fundo */
+            z-index: 1000; /* Garante que o texto fique sobre outros elementos */
+        }
+
+        /* Exemplo de posições possíveis */
+        .top-left {
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .top-right {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .bottom-left {
+            bottom: 1rem;
+            left: 1rem;
+        }
+
+        .bottom-right {
+            bottom: 1rem;
+            right: 1rem;
+        }
+
+        .center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centraliza o texto */
+        }
+    </style>
+</head>
+<body>
+    
